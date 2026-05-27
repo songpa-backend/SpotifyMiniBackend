@@ -27,7 +27,7 @@ public class CommentService {
 
         try {
 
-            return musicDAO.selectCommentsByUserAndMusic(con, userId, musicId);
+            return musicDAO.selectCommentsById(con, userId, musicId);
         } finally {
 
             close(con);

@@ -40,9 +40,9 @@ public class CommentDAO {
             }
         return comments;
     }
-    public List<CommentDTO> selectCommentsByUserAndMusic(Connection con, int userId, int musicId) {
-        java.sql.PreparedStatement pstmt = null;
-        java.sql.ResultSet rset = null;
+    public List<CommentDTO> selectCommentsById(Connection con, int userId, int musicId) {
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
         List<CommentDTO> commentList = new java.util.ArrayList<>();
 
         String query = "SELECT comment_id, content, user_id, music_id FROM comments WHERE user_id = ? AND music_id = ?";
