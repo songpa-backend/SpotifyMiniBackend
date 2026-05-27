@@ -18,15 +18,18 @@ public class MusicApiServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("applicaiton/json; charset=UTF-8");
+        resp.setContentType("application/json; charset=UTF-8");
 
         if(!"/api/musics".equals(req.getServletPath())){
         resp.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-        mapper.writeValue(resp.getWriter(), new ErrorResponse("GET /api/memos를 사용하세요."));
+        mapper.writeValue(resp.getWriter(), new ErrorResponse("GET /api/musics를 사용하세요."));
         return;
         }
+
         List<MusicDTO> musics = musicService.findsAllMusics();
         mapper.writeValue(resp.getWriter(), musics);
+        //id값이 있으면 노래정보 불러옴
+
     }
 
     @Override
