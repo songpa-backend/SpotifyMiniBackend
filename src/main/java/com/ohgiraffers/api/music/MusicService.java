@@ -19,4 +19,15 @@ public class MusicService {
             close(con);
         }
     }
+
+    public MusicDTO findMusicById(int musicId){
+
+        Connection con = getConnection();
+        try{
+            return musicDAO.findMusicById(con, musicId);
+
+        }finally{
+            close(con);
+        }
+    }
 }
