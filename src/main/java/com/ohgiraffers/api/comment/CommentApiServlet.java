@@ -65,17 +65,29 @@ public class CommentApiServlet extends HttpServlet {
     }
 
     private void registComment(HttpServletRequest req, HttpServletResponse resp) throws IOException{
+        System.out.println("registComment");
         CommentDTO requestComment = mapper.readValue(req.getReader(), CommentDTO.class);
-        String content = requestComment.getContent() == null ? " " : requestComment.getContent().trim();
-        int music_id = requestComment.getMusic_id() == 0 ? 0  : requestComment.getMusic_id();
 
+        String content = requestComment.getContent() == null ? " " : requestComment.getContent().trim();
+        int music_id =  requestComment.getMusic_id();
+        int user_id = requestComment.getUser_id();
+
+        // 1. 댓글 내용 검증
         if(content.isEmpty()){
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             mapper.writeValue(resp.getWriter(), new ErrorResponse("댓글 내용이 필요합니다."));
+            return;
         }
 
-        CommentDTO savedComment = commentService.registComment(content, music_id);
+        // 2. 음악 ID 검증
+        // 만약 프론트가 보낸 music_id가 자바 DTO에 정상적으로 매핑되지 않아 0이 되었다면 차단
+        if(music_id == 0) {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            mapper.writeValue(resp.getWriter(), new ErrorResponse("올바르지 않은 music_id(0)가 전달되었습니다. DTO 필드를 확인하세요."));
+            return;
+        }
 
+        CommentDTO savedComment = commentService.registComment(content, user_id, music_id);
         resp.setStatus(HttpServletResponse.SC_CREATED);
         mapper.writeValue(resp.getWriter(), savedComment);
 

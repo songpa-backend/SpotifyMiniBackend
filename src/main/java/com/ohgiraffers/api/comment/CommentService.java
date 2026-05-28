@@ -36,11 +36,12 @@ public class CommentService {
         }
     }
 
-    public CommentDTO registComment(String content, int music_id){
+    public CommentDTO registComment(String content, int music_id, int user_id){
+
         Connection con = getConnection();
 
         try{
-            return commentDAO.insertComment(con, content, music_id);
+            return commentDAO.insertComment(con, content, music_id, user_id);
         }finally {
             close(con);
         }

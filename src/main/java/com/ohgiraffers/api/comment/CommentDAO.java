@@ -76,30 +76,30 @@ public class CommentDAO {
     }
 
     //3. 새 댓글 등록하기
-    public CommentDTO insertComment(Connection con, String content, int music_id) {
+    public CommentDTO insertComment(Connection con, String content, int user_id, int music_id) {
+        System.out.println("(insertComment 실행)"+"content:"+content+"music_id:"+music_id);
         PreparedStatement pstmt = null;
         ResultSet generatedKeys = null;
 
-        String query = "INSERT INTO spotifymini_db(content, user_id, music_id) VALUES (?,?,?) ";
+        String query = " INSERT INTO comments(content, user_id, music_id) VALUES (?,?,?) ";
 
         try {
             pstmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
             pstmt.setString(1, content);
-            pstmt.setInt(2, 1);
+            pstmt.setInt(2, user_id);
             pstmt.setInt(3, music_id);
             pstmt.executeUpdate();
 
             //Auto Increment comment_id값을 얻어오기
             int comment_id = 0;
-            int user_id = 0;
 
             generatedKeys = pstmt.getGeneratedKeys();
 
             if (generatedKeys.next()) {
                 comment_id = generatedKeys.getInt(1);
             } else{
-                throw new SQLException("생성된 spotifymini_db를 읽을 수 없습니다.");
+                throw new SQLException("생성된 Spotify_db를 읽을 수 없습니다.");
             }
 
             CommentDTO commentDTO = new CommentDTO(comment_id, content, user_id, music_id);
