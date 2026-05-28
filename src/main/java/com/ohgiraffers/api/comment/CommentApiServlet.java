@@ -55,7 +55,7 @@ public class CommentApiServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("doPost 호출됨");
+        //System.out.println("doPost 호출됨");
         //req (Request, 요청): 브라우저가 나한테 준 것! ➡️ setCharacterEncoding으로 한글 깨짐 없이 안전하게 읽기 위해 씀!
         req.setCharacterEncoding("UTF-8");
         //resp (Response, 응답): 내가 브라우저한테 줄 것! ➡️ setContentType으로 "이거 JSON이고 한글이야"라고 브라우저에게 알려주기 위해 씀!
@@ -65,7 +65,7 @@ public class CommentApiServlet extends HttpServlet {
     }
 
     private void registComment(HttpServletRequest req, HttpServletResponse resp) throws IOException{
-        System.out.println("registComment");
+        //System.out.println("registComment");
         CommentDTO requestComment = mapper.readValue(req.getReader(), CommentDTO.class);
 
         String content = requestComment.getContent() == null ? " " : requestComment.getContent().trim();
