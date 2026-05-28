@@ -1,6 +1,8 @@
 package com.ohgiraffers.api.comment;
 
 
+import com.ohgiraffers.api.music.MusicDAO;
+
 import java.sql.Connection;
 import java.util.List;
 
@@ -8,13 +10,13 @@ import static com.ohgiraffers.common.JDBCTemplate.*;
 
 public class CommentService {
 
-    private final CommentDAO musicDAO = new CommentDAO();
+    private final CommentDAO commentDAO = new CommentDAO();
 
     public List<CommentDTO> findsAllComments(){
 
         Connection con = getConnection();
         try{
-            return musicDAO.selectAllComments(con);
+            return commentDAO.selectAllComments(con);
 
         }finally{
             close(con);
@@ -27,9 +29,19 @@ public class CommentService {
 
         try {
 
-            return musicDAO.selectCommentsById(con, userId, musicId);
+            return commentDAO.selectCommentsById(con, userId, musicId);
         } finally {
 
+            close(con);
+        }
+    }
+
+    public CommentDTO registComment(String content, int music_id){
+        Connection con = getConnection();
+
+        try{
+            return commentDAO.insertComment(con, content, music_id);
+        }finally {
             close(con);
         }
     }
