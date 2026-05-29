@@ -17,6 +17,10 @@ public class CommentDTO {
         this.musicId = musicId;
     }
 
+    public int getId() {
+        return this.comment_id;
+    }
+
     public int getComment_id() {
         return comment_id;
     }
