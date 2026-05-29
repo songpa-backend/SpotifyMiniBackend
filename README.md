@@ -263,7 +263,7 @@ build/libs/SpotifyMiniBackend-1.0-SNAPSHOT.war
 
 ### 댓글 목록 렌더링 시 발생하는 리액트 unique key prop 에러
 **문제 상황**  
-- 프론트엔드(React/Next.js) 화면에서 댓글 목록을 렌더링할 때, 콘솔창에 고유한 key 값이 없다는 에러(Each child in a list should have a unique "key" prop)가 발생하였습니다.
+- 프론트엔드(React/Next.js) 화면에서 댓글 목록을 렌더링할 때, **콘솔창에 고유한 key 값이 없다는 에러(Each child in a list should have a unique "key" prop)** 가 발생하였습니다.
 - 프론트엔드 코드 상태:
 프론트엔드에서는 반복문(map)을 돌며 각 댓글의 고유 ID를 key로 지정하기 위해 아래와 같이 코드를 작성해 둔 상태 입니다.
 ```
