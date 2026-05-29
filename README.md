@@ -16,7 +16,7 @@ Spring 없이 순수 **Jakarta Servlet**과 **JDBC**를 활용하여 REST API를
 
 | 이름  | 역할             |
 |-----|----------------|
-| 정해원 | 곡 조회, 댓글 조회/등록 |
+| 정해원 | 곡 목록/상세 조회, 댓글 조회/등록 |
 | 남채린 | 좋아요 조회/등록/삭제   |
 
 ---
@@ -38,6 +38,7 @@ Spring 없이 순수 **Jakarta Servlet**과 **JDBC**를 활용하여 REST API를
 ### 🎵 곡 조회 / 검색
 - 전체 곡 목록 조회
 - 키워드 기반 곡 검색
+- 곡 상세 정보
 
 ### ✍️ 댓글 조회 / 등록
 - 각 곡에 달린 댓글 조회
@@ -125,9 +126,25 @@ SpotifyMiniBackend/
 
 | Method | URI | 설명 |
 |--------|-----|------|
-| POST | `/likes` | 트랙 좋아요 등록 |
-| DELETE | `/likes/{trackId}` | 좋아요 취소 |
-| GET | `/likes` | 찜한 트랙 목록 조회 |
+| POST | `/comments` | 댓글 등록 |
+| GET | `/comments?userId={userID}&musicId={musicId}` | 댓글 목록 조회 |
+
+**Query Parameters**
+
+| 파라미터   | 타입 | 필수 | 설명      |
+|--------|------|------|---------|
+| userId | int | ✅ | user id |
+| musicId | int | ✅ | music id |
+| content | String | ✅ | 댓글 내용 |
+
+**POST Request Body**
+```json
+{
+   "userId":1,
+   "musicId":15,
+   "content":"이 노래 내 스타일"
+}
+```
 
 ### Like (좋아요)
 
@@ -244,20 +261,36 @@ build/libs/SpotifyMiniBackend-1.0-SNAPSHOT.war
 }
 ```
 
-
-### [문제 제목]
+### 댓글 목록 렌더링 시 발생하는 리액트 unique key prop 에러
 **문제 상황**  
-어떤 상황에서 어떤 에러가 발생했는지
+- 프론트엔드(React/Next.js) 화면에서 댓글 목록을 렌더링할 때, 콘솔창에 고유한 key 값이 없다는 에러(Each child in a list should have a unique "key" prop)가 발생하였습니다.
+- 프론트엔드 코드 상태:
+프론트엔드에서는 반복문(map)을 돌며 각 댓글의 고유 ID를 key로 지정하기 위해 아래와 같이 코드를 작성해 둔 상태 입니다.
+```
+<div key={comment.id} className={styles.commentLine}>
+```
 
 **원인**  
-왜 발생했는지
+- **백엔드 자바 DTO와 프론트엔드가 기대하는 JSON Key 이름의 불일치 하여 발생하였습니다.**
+- 상세 분석:
+    - 기존 자바 CommentDTO에는 댓글 고유 번호 변수명이 private int comment_id;로 정의되어 있었습니다.
+    - 이에 따라 백엔드가 JSON 데이터를 보낼 때 "comment_id": 1 이라는 이름표로 데이터를 전송하였습니다.
+    - 하지만 프론트엔드는 comment.id 즉, "id"라는 이름표를 찾고 있었기 때문에 comment.id 값이 undefined로 인식되어 리액트 key 에러가 발생 하였습니다.
 
 **해결 방법**  
-어떻게 해결했는지
-
-```java
-// 코드가 있으면 코드 블록으로
+- 해결: 자바 DTO에 프론트엔드 요구사항에 맞춘 getId() Getter 메서드를 추가하여 JSON 이름표를 동적으로 생성하였습니다.
+- 백엔드 수정 코드
 ```
+    public int getId() {
+        return this.comment_id;
+    }
+
+    public int getComment_id() {
+        return comment_id;
+    }
+```
+**배운 점**
+- 자바 객체가 JSON으로 변환될 때 변수명이 아니라 Getter 메서드의 이름을 기준으로 프로퍼티(Key)가 생성된다는 점을 깊이 이해하게 됨.
 ---
 
 ## 📝 개발 환경
