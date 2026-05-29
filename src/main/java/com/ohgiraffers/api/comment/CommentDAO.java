@@ -58,8 +58,8 @@ public class CommentDAO {
                 CommentDTO comment = new CommentDTO();
 
                 comment.setComment_id(rset.getInt("comment_id"));
-                comment.setUser_id(rset.getInt("user_id"));
-                comment.setMusic_id(rset.getInt("music_id"));
+                comment.setUserId(rset.getInt("user_id"));
+                comment.setMusicId(rset.getInt("music_id"));
                 comment.setContent(rset.getString("content"));
 
                 commentList.add(comment);

@@ -4,17 +4,17 @@ public class CommentDTO {
 
     private int comment_id;
     private String content;
-    private int user_id;
-    private int music_id;
+    private int userId;
+    private int musicId;
 
     public CommentDTO() {
     }
 
-    public CommentDTO(int comment_id, String content, int user_id, int music_id) {
+    public CommentDTO(int comment_id, String content, int userId, int musicId) {
         this.comment_id = comment_id;
         this.content = content;
-        this.user_id = user_id;
-        this.music_id = music_id;
+        this.userId = userId;
+        this.musicId = musicId;
     }
 
     public int getComment_id() {
@@ -33,20 +33,20 @@ public class CommentDTO {
         this.content = content;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public int getMusic_id() {
-        return music_id;
+    public int getMusicId() {
+        return musicId;
     }
 
-    public void setMusic_id(int music_id) {
-        this.music_id = music_id;
+    public void setMusicId(int musicId) {
+        this.musicId = musicId;
     }
 
     @Override
@@ -54,8 +54,8 @@ public class CommentDTO {
         return "CommentDTO{" +
                 "comment_id=" + comment_id +
                 ", content='" + content + '\'' +
-                ", user_id=" + user_id +
-                ", music_id='" + music_id + '\'' +
+                ", userId=" + userId +
+                ", musicId=" + musicId +
                 '}';
     }
 }

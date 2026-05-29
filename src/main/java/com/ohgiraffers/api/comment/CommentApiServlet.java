@@ -69,8 +69,8 @@ public class CommentApiServlet extends HttpServlet {
         CommentDTO requestComment = mapper.readValue(req.getReader(), CommentDTO.class);
 
         String content = requestComment.getContent() == null ? " " : requestComment.getContent().trim();
-        int music_id =  requestComment.getMusic_id();
-        int user_id = requestComment.getUser_id();
+        int music_id =  requestComment.getMusicId();
+        int user_id = requestComment.getUserId();
 
         // 1. 댓글 내용 검증
         if(content.isEmpty()){
