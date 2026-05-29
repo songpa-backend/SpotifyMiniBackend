@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <entry key="selectAllLikesByUser">
+        SELECT L.*, M.*
+        FROM likes L
+            LEFT JOIN musics M ON M.music_id = L.music_id
+        WHERE L.user_id = ?
+    </entry>
+    <entry key="addLike">
+        INSERT INTO likes (
+            user_id,
+            music_id
+        ) VALUES (?, ?)
+    </entry>
+    <entry key="deleteLike">
+        DELETE FROM likes
+        WHERE like_id = ?
+    </entry>
+</properties>
